@@ -59,9 +59,9 @@ function install_host_dependencies {
    check_return_code "\`apt-get install base tools\` failed"
 
    #install python
-   run_with_sudo_if_required export http_proxy="http:://child-prc.intel.com:913"
-   run_with_sudo_if_required export https_proxy="https:://child-prc.intel.com:913"
-   run_with_sudo_if_required pip3 install lxml xmlschema
+   export http_proxy="http:://child-prc.intel.com:913"
+   export https_proxy="https:://child-prc.intel.com:913"
+   pip3 install lxml xmlschema
    pushd ~/acrn_deploy
    tar xvf msr-tools_1.3.orig.tar.gz && cd msr-tools-1.3
    make -j8 
@@ -81,7 +81,8 @@ function build_acrn_hyperviosr {
     fi
     git clone https://github.com/projectacrn/acrn-hypervisor.git
     cd acrn-hypervisor && git checkout -b acrn2.5 remotes/origin/release_2.5
-    make BOARD=whl-ipc-i7 SCENARIO=industry -j8
+    make BOARD=whl-ipc-i5 SCENARIO=industry -j8
+    #make BOARD=whl-ipc-i7 SCENARIO=industry -j8
     #make BOARD=tgl-rvp SCENARIO=industry -j8
     if [[ -d "./build/" ]]; then
     echo "Success build"
