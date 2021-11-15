@@ -69,6 +69,7 @@ function install_host_dependencies {
    check_return_code "\`install msr"
    popd
    run_with_sudo_if_required cp iasl /usr/bin/
+   run_with_sudo_if_required mkdir -p /usr/share/acrn/bios/
    run_with_sudo_if_required cp OVMF.fd /usr/share/acrn/bios/
 
 }
