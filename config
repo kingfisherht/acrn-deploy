@@ -1,0 +1,6 @@
+[http]
+	postBuffer = 524288000
+	proxy = http://child-prc.intel.com:913
+[https]
+	proxy = https://child-prc.intel.com:913
+

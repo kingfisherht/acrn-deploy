@@ -1,0 +1,15 @@
+#!/bin/sh
+exec tail -n +3 $0
+# This file provides an easy way to add custom menu entries.  Simply type the
+# menu entries you want to add after this comment.  Be careful not to change
+# the 'exec tail' line above.
+menuentry 'ACRNBOOT' {
+search --no-floppy --fs-uuid --set 24d718aa-8d21-45cd-a300-4e0e0cd565de
+echo 'loading ACRN2...'
+#multiboot2 /EFI/BOOT/acrn.bin root=/dev/nvme0n1p3 i915.modeset=0 video=efifb\:off hvlog=2M@0xe00000 memmap=0x200000\$0xe00000
+#nokaslr earlyprintk=ttyS0 loglevel=7
+multiboot2 /boot/acrn/acrn.bin
+#intel_pstate=disable i915.force_probe=9a49 i915.enable_psr=0 i915.enable_fbc=0 i915.enable_guc=2 drm.debug=0x4 idle=halt
+module2 /boot/bzImage Linux_bzImage root=/dev/sda2 console=ttyS0,115200 idle=halt rw rootwait  consoleblank=0 no_timer_check i915.modeset=0 video=efifb:off
+}
+

@@ -1,0 +1,14 @@
+[Unit]
+Description="Set Internal Net Static IP"
+After=systemd-resolved.service
+
+[Service]
+Type=simple
+ExecStart=/bin/bash /lib/systemd/network/static_ip.sh
+ExecStop=/bin/kill -INT $MAINPID
+ExecReload=/bin/kill -TERM $MAINPID
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=multi-user.target
