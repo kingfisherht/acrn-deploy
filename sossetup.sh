@@ -69,6 +69,7 @@ function install_host_dependencies {
    check_return_code "\`install msr"
    popd
    run_with_sudo_if_required cp iasl /usr/bin/
+   run_with_sudo_if_required cp OVMF.fd /usr/share/acrn/bios/
 
 }
 function build_acrn_hyperviosr {
@@ -91,6 +92,8 @@ function build_acrn_hyperviosr {
     run_with_sudo_if_required mkdir -p /boot/acrn
     run_with_sudo_if_required cp acrn.bin /boot/acrn/
     popd
+    run_with_sudo_if_required cp ./build/devicemodel/acrn-dm /usr/bin/
+
 }
 
 function network_transform {
