@@ -128,18 +128,24 @@ function config_environment {
 
 function install_kernel {
     echo "install kernel"
-    pushd  /home/intel/acrn_deploy
-    run_with_sudo_if_required cp bzImage /boot/
-    run_with_sudo_if_required tar xvf 5.4.106-PKT-SOS.tar.gz -C /lib/modules/
-    check_return_code "install kernel"
+    pushd  /home/intel/codebase/
+    git clone https://github.com/projectacrn/acrn-kernel.git
+    cd acrn-kernel && git checkout -b acrn2.5 remotes/origin/release_2.5
+    mkdir out
+    make  -j4
+    make modules -j4
+    make install INSTALL_PATH=./out
+    make modules_install INSTALL_MOD_PATH=./out
+    #make -j4 bindeb-pkg
     popd
+    
 }
 
 function update_grube {
     pushd  /home/intel/acrn_deploy
     UUID=`lsblk -f | grep "ext4" | cut -d " " -f 11`
     echo $UUID
-    #sed 's/24d718aa-8d21-45cd-a300-4e0e0cd565de/$UUID/' sed-40_custom
+    sed -i "s/24d718aa-8d21-45cd-a300-4e0e0cd565de/${UUID}/" 40_custom
     run_with_sudo_if_required cp 40_custom /etc/grub.d/
     run_with_sudo_if_required update-grub
     popd
