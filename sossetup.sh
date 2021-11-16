@@ -59,9 +59,7 @@ function install_host_dependencies {
    check_return_code "\`apt-get install base tools\` failed"
 
    #install python
-   export http_proxy="http:://child-prc.intel.com:913"
-   export https_proxy="https:://child-prc.intel.com:913"
-   run_with_sudo_if_required pip3 install lxml xmlschema --proxy="http:://child-prc.intel.com:913"
+   run_with_sudo_if_required pip3 install lxml xmlschema --proxy="http://child-prc.intel.com:913"
    pushd ~/acrn_deploy
    tar xvf msr-tools_1.3.orig.tar.gz && cd msr-tools-1.3
    make -j8 
