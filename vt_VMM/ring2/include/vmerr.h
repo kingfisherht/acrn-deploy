@@ -1,0 +1,5 @@
+typedef enum {
+   STATUS_VMMOK=0,
+   STATUS_VMMALLOC_PAGE_ERROR,
+   STATUS_vmmon_ERROR,
+}VMMSTATE;
