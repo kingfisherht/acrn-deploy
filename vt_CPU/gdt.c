@@ -20,6 +20,7 @@ void load_gdtr_and_tr(void){
 	tss->ist3 = (uint64_t)get_vcpu_var(sf_stack) + CONFIG_STACK_SIZE;
 	tss->ist4 = 0UL;
 }
+
 void init_pcpu_post(void){
 
 	uint16_t pcpu_id;

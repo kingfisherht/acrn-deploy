@@ -19,7 +19,7 @@ static int vmmx_cpu_init(void){
 
     init_pcpu_post();
     
-    init_pcpu_pre();
+    //init_pcpu_pre();
 
     return 0;
 }

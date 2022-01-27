@@ -72,7 +72,7 @@ struct tss_64 {
 
 
 
-struct per_cpu_region {
+struct per_vcpu_region {
 	struct host_gdt gdt;
 	struct tss_64 tss;
 	uint8_t mc_stack[CONFIG_STACK_SIZE] __aligned(16);
@@ -82,14 +82,13 @@ struct per_cpu_region {
 
 } __aligned(PAGE_SIZE); /* per_cpu_region size aligned with PAGE_SIZE */
 
-
 #define per_vcpu(name, pcpu_id)	\
-	(per_cpu_data[(pcpu_id)].name)
+	(per_vcpu_data[(pcpu_id)].name)
 
 /* get percpu data for current pcpu */
 #define get_vcpu_var(name)	per_vcpu(name, get_pcpu_id())
 
-extern struct per_cpu_region per_cpu_data[MAX_PCPU_NUM];
+extern struct per_vcpu_region per_vcpu_data[MAX_PCPU_NUM];
 
 void load_gdtr_and_tr(void);
 
