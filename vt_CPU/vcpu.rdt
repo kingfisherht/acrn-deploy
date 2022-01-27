@@ -1,0 +1,13 @@
+
+#define CONFIG_STACK_SIZE 0x2000U
+#define MAX_PCPU_NUM                  4U
+#define PAGE_SHIFT	12U
+#define PAGE_SIZE	(1U << PAGE_SHIFT)
+
+struct per_cpu_region per_cpu_data[MAX_PCPU_NUM] __aligned(PAGE_SIZE);
+
+struct per_cpu_region {
+
+	uint8_t stack[CONFIG_STACK_SIZE] __aligned(16);
+
+}
