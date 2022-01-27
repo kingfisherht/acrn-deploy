@@ -1,3 +1,5 @@
+#include "vcpu.h"
+
 #define	FEATURE_WORDS		15U
 #define	FEAT_1_ECX		0U     /* CPUID[1].ECX */
 #define	FEAT_1_EDX		1U     /* CPUID[1].EDX */
@@ -15,6 +17,7 @@ struct vcpuinfo_x86 {
 	char model_name[64];
 };
 
+
+void init_pcpu_pre(void);
 void init_pcpu_capabilities(void);
 void init_pcpu_model_name(void);
-void load_pcpu_state_data(void);

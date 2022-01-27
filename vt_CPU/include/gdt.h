@@ -1,3 +1,16 @@
+#include <linux/types.h>
+#include <asm/page.h>
+#include "vcpu.h"
+
+uint16_t get_pcpu_id(void)
+{
+	uint32_t tsl, tsh, cpu_id;
+
+	asm volatile ("rdtscp":"=a" (tsl), "=d"(tsh), "=c"(cpu_id)::);
+	return (uint16_t)cpu_id;
+}
+
+
 /*
  * Definition of 16 byte TSS and LDT selectors.
  */
@@ -58,25 +71,25 @@ struct tss_64 {
 } __packed __aligned(16);
 
 
-/*
- * x86-64 Task State Segment (TSS) definition.
- */
-struct tss_64 {
-	uint32_t rsvd1;
-	uint64_t rsp0;
-	uint64_t rsp1;
-	uint64_t rsp2;
-	uint32_t rsvd2;
-	uint32_t rsvd3;
-	uint64_t ist1;
-	uint64_t ist2;
-	uint64_t ist3;
-	uint64_t ist4;
-	uint64_t ist5;
-	uint64_t ist6;
-	uint64_t ist7;
-	uint32_t rsvd4;
-	uint32_t rsvd5;
-	uint16_t rsvd6;
-	uint16_t io_map_base_addr;
-} __packed __aligned(16);
+
+struct per_cpu_region {
+	struct host_gdt gdt;
+	struct tss_64 tss;
+	uint8_t mc_stack[CONFIG_STACK_SIZE] __aligned(16);
+	uint8_t df_stack[CONFIG_STACK_SIZE] __aligned(16);
+	uint8_t sf_stack[CONFIG_STACK_SIZE] __aligned(16);
+	uint8_t stack[CONFIG_STACK_SIZE] __aligned(16);
+
+} __aligned(PAGE_SIZE); /* per_cpu_region size aligned with PAGE_SIZE */
+
+
+#define per_vcpu(name, pcpu_id)	\
+	(per_cpu_data[(pcpu_id)].name)
+
+/* get percpu data for current pcpu */
+#define get_vcpu_var(name)	per_vcpu(name, get_pcpu_id())
+
+extern struct per_cpu_region per_cpu_data[MAX_PCPU_NUM];
+
+void load_gdtr_and_tr(void);
+
