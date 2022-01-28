@@ -1,6 +1,7 @@
 #include <linux/types.h>
 #include <asm/page.h>
 #include "vcpu.h"
+#define TSS_AVAIL  (9U)
 
 uint16_t get_pcpu_id(void)
 {
@@ -10,7 +11,13 @@ uint16_t get_pcpu_id(void)
 	return (uint16_t)cpu_id;
 }
 
-
+/*
+ * Definition of the GDT descriptor.
+ */
+struct host_gdt_descriptor {
+	uint16_t len;
+	struct host_gdt *gdt;
+} __packed;
 /*
  * Definition of 16 byte TSS and LDT selectors.
  */
