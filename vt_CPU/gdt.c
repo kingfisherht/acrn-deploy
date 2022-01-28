@@ -6,8 +6,9 @@
 
 MODULE_LICENSE("GPL");
 
-void load_gdtr_and_tr(void){
+struct per_vcpu_region per_vcpu_data[MAX_PCPU_NUM] __aligned(PAGE_SIZE);
 
+void load_gdtr_and_tr(void){
 
     struct host_gdt *gdt = &get_vcpu_var(gdt);
     struct tss_64 *tss = &get_vcpu_var(tss);
